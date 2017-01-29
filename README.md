@@ -1,2 +1,2 @@
 # python
-phthon練習
+python練習
