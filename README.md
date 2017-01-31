@@ -6,9 +6,12 @@ Try using Python for stock data analysis.
 
 ## Python packages
   - monthdelta
-  - pandas-datareader
   - pandoc
   - LaTex
+  - pandas-datareader
+~~~
+  > pip install pandas-datareader
+~~~
 
 ## Requirement / My PC environment.
   - Windows7 64 bit.
