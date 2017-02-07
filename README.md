@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Python
 ====
 
@@ -20,3 +21,7 @@ Try using Python for stock data analysis.
     - Python 3.5
   - [ez_seetup.py](https://trac.edgewall.org/wiki/TracPlugins)
   - MonthDelta-0.9.1.zip
+=======
+# python
+python練習
+>>>>>>> parent of 3c60fa1... Edit Readme.md
