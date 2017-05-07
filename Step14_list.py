@@ -53,17 +53,20 @@ print("\n--- scores ---")
 print(scores)         
 
 #2回目が70点以上
-f70 = {(name, firstScore, secondScore) for name, firstScore, secondScore in scores if firstScore>=70}
+f70 = {(name, firstScore, secondScore) 
+        for name, firstScore, secondScore in scores if firstScore>=70}
 print("\n--- forstScore >= 70 ---")
 print(f70)
 
 #2回目が70点以上
-s70 = {(name, firstScore, secondScore) for name, firstScore, secondScore in scores if secondScore>=70}
+s70 = {(name, firstScore, secondScore) 
+        for name, firstScore, secondScore in scores if secondScore>=70}
 print("\n--- secondScoe >= 70 ---")
 print(s70)
 
 #平均が70以上
-av70 = {(name, firstScore, secondScore) for name, firstScore, secondScore in scores if (firstScore + secondScore)>=140}
+av70 = {(name, firstScore, secondScore) 
+        for name, firstScore, secondScore in scores if (firstScore + secondScore)>=140}
 print("\n--- average >= 70 ---")
 print(av70)
 
@@ -73,7 +76,8 @@ print(av70)
 res = (f70 ^ s70) & av70
 print("\n--- rsult ---")
 print(res)
-       
+
+
 
 
 
