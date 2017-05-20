@@ -10,7 +10,7 @@ def module_sub(x, y):
 # __name__ == "Step12_module" となる。
 print("\n This message is from Step12_module.py [ptrint(__name__)] : " + __name__)
 
-#この条件を設定しておくと、モジュールとして実行されたさいに以下が呼ばれない。
+#この条件を設定しておくと、モジュールとして実行された際に以下が呼ばれない。
 if __name__ == "__main__":
     ans = module_add(3, 4)
     print(ans)
