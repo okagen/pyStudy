@@ -104,7 +104,7 @@ def dictFunc(**d):
 
 dictFunc(a="aaa",b="bbb", c=l)
 
-# グロ^バル変数を変更する
+# グローバル変数を変更する
 print("---[Original gloval variable]---")
 glb = "This is a gloval variable"
 print(glb)
