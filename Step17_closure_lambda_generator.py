@@ -1,4 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun May 28 09:37:53 2017
 
+@author: 10007434
+"""
 # 関数内関数
 def myName_innerFunc(given, family):
     gHead = 'My given name * 2 is = '
