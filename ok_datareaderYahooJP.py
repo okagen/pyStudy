@@ -6,10 +6,13 @@ Created on Sun Jul  9 07:06:45 2017
 """
 from __future__ import unicode_literals
 import pandas as pd
+import html5lib
 
 def datareaderYahooJP(code, start=None, end=None, interval='d'):
+    # Yahooファイナンスの時系列データ
     base = 'http://info.finance.yahoo.co.jp/history/?code={0}.T&{1}&{2}&tm={3}&p={4}'
-    #start, end = web._sanitize_dates(start, end)
+
+    # 開始日と終了日を設定
     start = pd.to_datetime(start)
     if end == None:
         end = pd.to_datetime(pd.datetime.now())
@@ -17,9 +20,11 @@ def datareaderYahooJP(code, start=None, end=None, interval='d'):
         end = pd.to_datetime(end)
     start = 'sy={0}&sm={1}&sd={2}'.format(start.year, start.month, start.day)
     end = 'ey={0}&em={1}&ed={2}'.format(end.year, end.month, end.day)
+
     p = 1
     results = []
 
+    # intervalの値に問題があれば、エラーを発生させる。
     if interval not in ['d', 'w', 'm', 'v']:
         raise ValueError("Invalid interval: valid values are 'd', 'w', 'm' and 'v'")
 
@@ -32,6 +37,7 @@ def datareaderYahooJP(code, start=None, end=None, interval='d'):
         p += 1
     result = pd.concat(results, ignore_index=True)
 
+    # ヘッダ設定
     result.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'Adj Close']
     if interval == 'm':
         result['Date'] = pd.to_datetime(result['Date'], format='%Y年%m月')
