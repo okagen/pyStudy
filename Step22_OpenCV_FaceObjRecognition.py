@@ -5,33 +5,46 @@ Created on Sun Jul 16 07:43:48 2017
 @author: 10007434
 """
 
+
 # オンラインマニュアル
 # http://docs.opencv.org/2.4/modules/refman.html
+# インストール
+# pip install opencv-python
 
 import cv2
+imgname = 'Step22_OpenCV_FaceRec.jpg'
+imgname_gray = 'Step22_OpenCV_FaceRec-gray.jpg'
+imgname_bin = 'Step22_OpenCV_FaceRec-bin.jpg'
+imgname_edge = 'Step22_OpenCV_FaceRec-edge.jpg'
+imgname_faceRecog = 'Step22_OpenCV_FaceRec_FaceRecognition.jpg'
 
 # オリジナルファイル
-img_org = cv2.imread('Step22_OpenCV_FaceRec.jpg')
+img_org = cv2.imread(imgname)
 
 # グレースケールで画像を読み込む
-img_gray = cv2.imread('Step22_OpenCV_FaceRec.jpg', cv2.IMREAD_GRAYSCALE)
+img_gray = cv2.imread(imgname, cv2.IMREAD_GRAYSCALE)
+# ファイルに書き出す
+cv2.imwrite(imgname_gray, img_gray)
+
 
 # --------------------------
 # 白黒画像を作成
 # ２値化した画像を作る
 ret, img_bit = cv2.threshold(img_gray, 100, 250, cv2.THRESH_BINARY)
 # ファイルに書き出す
-cv2.imwrite('Step22_OpenCV_FaceRec-bin.jpg', img_bit)
+cv2.imwrite(imgname_bin, img_bit)
 print(ret)
+
 
 # --------------------------
 # エッジ画像を作成
 # エッジの抽出
-img_edge = cv2.Canny(img_gray, 80, 200)
+img_edge = cv2.Canny(img_gray, 10, 300)
 # ネガポジ反転
 img_edge = 255 - img_edge
 # ファイルに書き出す
-cv2.imwrite('Step22_OpenCV_FaceRec-edge.jpg', img_edge)
+cv2.imwrite(imgname_edge, img_edge)
+
 
 # --------------------------
 # 顔認証
@@ -53,13 +66,14 @@ if len(face_list) == 0:
 # 認証した顔の範囲に赤色の枠を描画
 for (x, y, w, h) in face_list:
     print('The coodinate of the face = ', x, y, w, h)
-    color = (0, 0, 255)
-    pen_w = 8
+    color = (0, 255, 255)
+    pen_w = 12
     cv2.rectangle(img_org, (x, y), (x+w, y+h), color, thickness = pen_w)
     
 # ファイルに書き出す
-cv2.imwrite('Step22_OpenCV_FaceRec_FaceRecognition.jpg', img_org)
-    
+cv2.imwrite(imgname_faceRecog, img_org)
+
+"""    
 # -------------------------
 # 物体認識
 img_org2 = cv2.imread('Step22_OpenCV_ObjRec.JPG')
@@ -90,3 +104,5 @@ for pt in cnts:
 
 # ファイルに書き出す
 cv2.imwrite('Step22_OpenCV_ObjRec_ObjectRecogunition.jpg', img_org2)
+
+"""
