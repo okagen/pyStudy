@@ -38,11 +38,11 @@ def bias_variable(shape):
 
 if __name__=='__main__':
     # 学習データ読込
-    train_dataset = readCSV( "./dataset/tf_2classes_training.csv")
+    train_dataset = readCSV( "./dataset/tf_3classes_training.csv")
     # 検証データ読込
-    validation_dataset = readCSV("./dataset/tf_2classes_validation.csv")
+    validation_dataset = readCSV("./dataset/tf_3classes_validation.csv")
     # 予測用データ読込
-    prediction_data = readCSV("./dataset/tf_2classes_prediction.csv")
+    prediction_data = readCSV("./dataset/tf_3classes_prediction.csv")
     
     # 学習データをデータと教師ラベルに分ける
     train_data = getData(train_dataset)
@@ -93,7 +93,7 @@ if __name__=='__main__':
     init_op = tf.global_variables_initializer()
     with tf.Session() as sess:
         sess.run(init_op)
-        for i in range(10):
+        for i in range(100):
             sess.run(train_step, feed_dict={
                 x:train_data,
                 supervisor:train_supervisor
@@ -117,7 +117,7 @@ if __name__=='__main__':
         plt.show()    
     
         # モデルを可視化
-        # summary_writer =  tf.summary.FileWriter('01_classification_2class_sygmoid', graph_def=sess.graph_def)
+        # summary_writer =  tf.summary.FileWriter('01_classification_3class_sygmoid', graph_def=sess.graph_def)
         
         # 予測値は0～1の実数なので、0.5より大きければ1にする
         for i in range(len(prediction_result)):
@@ -130,4 +130,4 @@ if __name__=='__main__':
         saveresult = np.c_[prediction_data,prediction_result]
         
         # 予測結果書き出し
-        np.savetxt("./result/tf_2classes_sigmoid_result.csv",saveresult,delimiter=",")
+        np.savetxt("./result/tf_3classes_sigmoid_result.csv",saveresult,delimiter=",")
