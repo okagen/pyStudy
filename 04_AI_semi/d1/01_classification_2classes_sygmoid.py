@@ -77,7 +77,7 @@ if __name__=='__main__':
     # 「supervisor」は正解のラベルで、「y」は学習した結果。この差が小さくなるような処理。
     cross_entropy = - tf.reduce_sum(supervisor * tf.log(y) + (1 - supervisor) * tf.log(1 - y))
     
-    # 誤差最適化手法（Optimizer）を作成　ここでは勾配降下法　学習率＝0.1
+    # 誤差最適化手法（Optimizer）を作成　ここでは勾配降下法のうちの急速降下法を使う　学習率＝0.1
     train_step = tf.train.GradientDescentOptimizer(0.1).minimize(cross_entropy)
     
     # 検証のための誤差計算方法の作成
