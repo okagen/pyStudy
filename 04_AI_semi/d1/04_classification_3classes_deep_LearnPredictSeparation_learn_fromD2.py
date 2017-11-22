@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # TensorFlow 2次元点の3分類（ディープラーニング）
+# 学習してモデルを生成
 
 import tensorflow as tf
 import numpy as np
@@ -25,14 +26,14 @@ def getSupervisor(data):
     return ret
 
 # 重み 標準偏差=0.1の乱数で生成する。
-def weight_variable(shape):
+def weight_variable(shape, name):
     initial = tf.truncated_normal(shape, stddev=0.1)
-    return tf.Variable(initial)
+    return tf.Variable(initial, name=name)
 
 # バイアス shapeで与えられた
-def bias_variable(shape):
+def bias_variable(shape, name):
     initial = tf.constant(0.1, shape=shape)
-    return tf.Variable(initial)
+    return tf.Variable(initial, name=name)
 
 if __name__=='__main__':
     # 学習データ読込
@@ -41,9 +42,6 @@ if __name__=='__main__':
     # 検証データ読込
     validation_dataset = readCSV("./dataset/tf_3classes_validation.csv")
     print("validation_dataset :", validation_dataset.shape)
-    # 予測用データ読込
-    prediction_data = readCSV("./dataset/tf_3classes_prediction.csv")
-    print("prediction_data :", prediction_data.shape)
 
     # 学習データをデータと教師ラベルに分ける
     train_data = getData(train_dataset)
@@ -56,6 +54,10 @@ if __name__=='__main__':
     print("validation_data :", validation_data.shape)
     validation_supervisor = getSupervisor(validation_dataset)    
     print("validation_supervisor :", validation_supervisor.shape)
+    
+    ########################## グラフをリセットする
+    tf.reset_default_graph()
+    ##########################
     
     # 学習用　教師ラベルをOneHot形式に変形する　３分類
     num_classes = 3
@@ -75,13 +77,13 @@ if __name__=='__main__':
     supervisor = tf.placeholder(tf.float32, shape = [None, n_outputs], name="supervisor")
     
     # 隠れ層　1層目 2行3列
-    weight1 = weight_variable([n_inputs, n_hidden])
-    bias1 = bias_variable([n_hidden])
+    weight1 = weight_variable([n_inputs, n_hidden], name="w1")
+    bias1 = bias_variable([n_hidden], name="b1")
     h = tf.nn.sigmoid(tf.matmul(x, weight1) + bias1)
     
     # 隠れ層　2層目 3行3列
-    weight2 = weight_variable([n_hidden, n_outputs])
-    bias2 = bias_variable([n_outputs])
+    weight2 = weight_variable([n_hidden, n_outputs], name="w2")
+    bias2 = bias_variable([n_outputs], name="b2")
     y = tf.nn.softmax(tf.matmul(h, weight2) + bias2)
     
     # 誤差関数を作成
@@ -115,10 +117,14 @@ if __name__=='__main__':
 
     # セッションの実行
     init_op = tf.global_variables_initializer()
-    
+
+    ########################## 以下の1行をつける
+    saver = tf.train.Saver()
+    ##########################
+
     with tf.Session() as sess:
         sess.run(init_op)
-        for i in range(10):
+        for i in range(1000):
             # 順番をシャッフル
             x_shuffled, y_shuffed = shuffle(train_data, train_supervisor_onehot.eval())
             
@@ -134,17 +140,13 @@ if __name__=='__main__':
             if(i%1==0):
                print(i,"training_accuracy : ", training_accuracy)
                df = df.append(Series([training_accuracy], index=['Accuracy']), ignore_index=True)
-            
-        prediction_result=y.eval(feed_dict={
-            x:prediction_data
-        })
+
     
         #　精度をグラフ表示
         df.plot(title='Training accuracy', style='--', grid=True, ylim=(0, 1.1))
-        plt.show()        
-    
-        # 書き出しのために予測データの次の列に予測結果を追加する
-        saveresult = np.c_[prediction_data,tf.argmax(prediction_result,1).eval()]
+        plt.show()
+        
+        ########################## 下の１行で保存．いくつかファイルができるのでディレクトリにした方がよい
+        saver.save(sess,"./model/model_3classes_deep")
+        ##########################
 
-        # 予測結果書き出し
-        np.savetxt("./result/tf_3classes_deep_result.csv", saveresult,delimiter=",")

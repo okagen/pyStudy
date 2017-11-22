@@ -39,10 +39,13 @@ def bias_variable(shape):
 if __name__=='__main__':
     # 学習データ読込
     train_dataset = readCSV( "./dataset/tf_2classes_training.csv")
+    print("train_dataset :", train_dataset.shape)
     # 検証データ読込
     validation_dataset = readCSV("./dataset/tf_2classes_validation.csv")
+    print("validation_dataset :", validation_dataset.shape)
     # 予測用データ読込
     prediction_data = readCSV("./dataset/tf_2classes_prediction.csv")
+    print("prediction_data :", prediction_data.shape)
     
     # 学習データをデータと教師ラベルに分ける
     train_data = getData(train_dataset)
@@ -93,7 +96,7 @@ if __name__=='__main__':
     init_op = tf.global_variables_initializer()
     with tf.Session() as sess:
         sess.run(init_op)
-        for i in range(10):
+        for i in range(900):
             sess.run(train_step, feed_dict={
                 x:train_data,
                 supervisor:train_supervisor

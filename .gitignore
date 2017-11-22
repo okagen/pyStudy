@@ -1,4 +1,10 @@
 00_tmp/
+04_AI_semi/d1/result/*
+04_AI_semi/d1/model/*
+04_AI_semi/d1/data/*
+04_AI_semi/d2/result/*
+04_AI_semi/d2/model/*
+04_AI_semi/d2/data/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
