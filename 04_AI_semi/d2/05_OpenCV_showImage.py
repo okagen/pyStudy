@@ -18,11 +18,6 @@ with open(filepath_filelist,  newline='') as f:
         supervisors.append(int(row[1]))
 
 
-
-
-
-
-
 # ファイルリスト内の画像を一つずつ読み込んで連続表示
 train_data = []
 for i in filelist:
